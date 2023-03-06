@@ -5,8 +5,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func main() {
+func init() {
 	initialize.LoadEnv()
+}
+func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
