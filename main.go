@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/arshad-siddiqui/sidequest/initialize"
-	"github.com/gofiber/fiber/v2"
+	"github.com/arshad-siddiqui/sidequest/router"
 )
 
 func init() {
@@ -13,11 +13,6 @@ func init() {
 	initialize.ConnectDB()
 }
 func main() {
-	app := fiber.New()
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-
+	app := router.New()
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }
