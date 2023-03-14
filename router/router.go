@@ -13,7 +13,7 @@ func New() *fiber.App {
 	})
 
 	app.Get("/test", controllers.TestController)
-	app.Post("/user/create", controllers.UserCreateController)
-
+	app.Post("/user/create", controllers.UserCreate)
+	app.Get("/user/all", controllers.UserAll)
 	return app
 }

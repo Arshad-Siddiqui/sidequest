@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func UserCreateController(c *fiber.Ctx) error {
+func UserCreate(c *fiber.Ctx) error {
 	user := new(models.User)
 	err := c.BodyParser(&user)
 	if err != nil {
@@ -14,4 +14,10 @@ func UserCreateController(c *fiber.Ctx) error {
 	}
 	initialize.DB.Create(&user)
 	return c.SendString("UserCreateController")
+}
+
+func UserAll(c *fiber.Ctx) error {
+	var users []models.User
+	initialize.DB.Find(&users)
+	return c.JSON(users)
 }
