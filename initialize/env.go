@@ -4,15 +4,8 @@ import "github.com/joho/godotenv"
 
 // LoadEnv loads the environment variables from the .env file
 
-func LoadEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
-}
-
-func LoadTestEnv() {
-	err := godotenv.Load("../.env")
+func LoadEnv(fileNames ...string) {
+	err := godotenv.Load(fileNames[0])
 	if err != nil {
 		panic(err)
 	}

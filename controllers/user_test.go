@@ -14,7 +14,7 @@ import (
 func TestUserCreate(t *testing.T) {
 	t.Log("TestUserCreate")
 
-	initialize.LoadTestEnv()
+	initialize.LoadEnv("../.env")
 	initialize.ConnectDB()
 
 	url := "/user/create"
@@ -59,7 +59,7 @@ func TestUserCreate(t *testing.T) {
 func TestUserAll(t *testing.T) {
 	t.Log("TestUserAll")
 
-	initialize.LoadTestEnv()
+	initialize.LoadEnv("../.env")
 	initialize.ConnectDB()
 
 	url := "/user/all"
