@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/arshad-siddiqui/sidequest/initialize"
+	"github.com/arshad-siddiqui/sidequest/reset"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/assert"
 )
@@ -16,6 +17,7 @@ func TestUserCreate(t *testing.T) {
 
 	initialize.LoadEnv("../.env.test")
 	initialize.ConnectDB()
+	reset.ResetDB()
 
 	url := "/user/create"
 	app := fiber.New()
@@ -61,6 +63,7 @@ func TestUserAll(t *testing.T) {
 
 	initialize.LoadEnv("../.env.test")
 	initialize.ConnectDB()
+	reset.ResetDB()
 
 	url := "/user/all"
 	app := fiber.New()
