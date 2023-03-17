@@ -10,3 +10,10 @@ func LoadEnv() {
 		panic(err)
 	}
 }
+
+func LoadTestEnv() {
+	err := godotenv.Load("../.env")
+	if err != nil {
+		panic(err)
+	}
+}
