@@ -62,10 +62,11 @@ func TestUserAll(t *testing.T) {
 	initialize.LoadTestEnv()
 	initialize.ConnectDB()
 
+	url := "/user/all"
 	app := fiber.New()
-	app.Get("/user/all", UserAll)
+	app.Get(url, UserAll)
 
-	req, err := http.NewRequest("GET", "/user/all", nil)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
