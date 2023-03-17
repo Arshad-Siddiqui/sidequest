@@ -8,15 +8,15 @@ import (
 )
 
 func main() {
-	initialize.LoadEnv(".env.test")
-	initialize.ConnectDB()
-
-	initialize.DB.AutoMigrate(&models.User{})
+	setDB(".env.test")
 	fmt.Println("Migrated Test DB")
 
-	initialize.LoadEnv(".env")
-	initialize.ConnectDB()
-
-	initialize.DB.AutoMigrate(&models.User{})
+	setDB(".env")
 	fmt.Println("Migrated Local DB")
+}
+
+func setDB(environment string) {
+	initialize.LoadEnv(environment)
+	initialize.ConnectDB()
+	initialize.DB.AutoMigrate(&models.User{})
 }
