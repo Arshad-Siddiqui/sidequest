@@ -7,12 +7,16 @@ import (
 	"github.com/arshad-siddiqui/sidequest/models"
 )
 
-func init() {
-	initialize.LoadEnv()
-	initialize.ConnectDB()
-}
-
 func main() {
+	initialize.LoadEnv(".env.test")
+	initialize.ConnectDB()
+
 	initialize.DB.AutoMigrate(&models.User{})
-	fmt.Println("Migrated")
+	fmt.Println("Migrated Test DB")
+
+	initialize.LoadEnv(".env")
+	initialize.ConnectDB()
+
+	initialize.DB.AutoMigrate(&models.User{})
+	fmt.Println("Migrated Local DB")
 }
