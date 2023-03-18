@@ -9,6 +9,7 @@ import (
 
 	"github.com/arshad-siddiqui/sidequest/controllers"
 	"github.com/arshad-siddiqui/sidequest/initialize"
+	"github.com/arshad-siddiqui/sidequest/models"
 	"github.com/arshad-siddiqui/sidequest/reset"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/assert"
@@ -88,6 +89,49 @@ func TestUserAll(t *testing.T) {
 	}
 
 	assert.Equal(t, string(body), "[]", "Body should be empty array")
+
+	AddUser("testemail", "testpassword")
+	resp, err = app.Test(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assert.Equal(t, resp.StatusCode, 200, "Status code should be 200 with no body")
+	body, err = io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var users []models.User
+	err = json.Unmarshal(body, &users)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assert.Equal(t, len(users), 1, "Body should be array with one user")
+	assert.Equal(t, users[0].Email, "testemail", "User email should be testemail")
+	assert.Equal(t, users[0].Password, "testpassword", "User email should be testpassword")
+
+	AddUser("testemail2", "testpassword2")
+
+	resp, err = app.Test(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	body, err = io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = json.Unmarshal(body, &users)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assert.Equal(t, len(users), 2, "Body should be array with two users")
+	assert.Equal(t, users[0].Email, "testemail", "User email should be testemail")
+	assert.Equal(t, users[1].Email, "testemail2", "User2 email should be testemail2")
 }
 
 func AddUser(email, password string) {
