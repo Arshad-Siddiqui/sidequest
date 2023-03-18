@@ -1,4 +1,4 @@
-package controllers
+package controllers_test
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/arshad-siddiqui/sidequest/controllers"
 	"github.com/arshad-siddiqui/sidequest/initialize"
 	"github.com/arshad-siddiqui/sidequest/reset"
 	"github.com/gofiber/fiber/v2"
@@ -22,7 +23,7 @@ func TestUserCreate(t *testing.T) {
 
 	url := "/user/create"
 	app := fiber.New()
-	app.Post(url, UserCreate)
+	app.Post(url, controllers.UserCreate)
 
 	req, err := http.NewRequest("POST", url, nil)
 	if err != nil {
@@ -68,7 +69,7 @@ func TestUserAll(t *testing.T) {
 
 	url := "/user/all"
 	app := fiber.New()
-	app.Get(url, UserAll)
+	app.Get(url, controllers.UserAll)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -87,4 +88,23 @@ func TestUserAll(t *testing.T) {
 	}
 
 	assert.Equal(t, string(body), "[]", "Body should be empty array")
+}
+
+func AddUser(email, password string) {
+	initialize.LoadEnv("../.env.test")
+	initialize.ConnectDB()
+
+	url := "/user/create"
+	app := fiber.New()
+	app.Post(url, controllers.UserCreate)
+
+	values := map[string]string{"email": email, "password": password}
+
+	jsonValue, _ := json.Marshal(values)
+
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonValue))
+
+	req.Header.Set("Content-Type", "application/json")
+
+	app.Test(req)
 }
