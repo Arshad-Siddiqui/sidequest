@@ -3,6 +3,7 @@ package controllers
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
 	"testing"
 
@@ -80,4 +81,10 @@ func TestUserAll(t *testing.T) {
 	}
 
 	assert.Equal(t, resp.StatusCode, 200, "Status code should be 200 with no body")
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assert.Equal(t, string(body), "[]", "Body should be empty array")
 }
