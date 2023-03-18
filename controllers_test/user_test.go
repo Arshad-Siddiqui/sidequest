@@ -133,22 +133,3 @@ func TestUserAll(t *testing.T) {
 	assert.Equal(t, users[0].Email, "testemail", "User email should be testemail")
 	assert.Equal(t, users[1].Email, "testemail2", "User2 email should be testemail2")
 }
-
-func AddUser(email, password string) {
-	initialize.LoadEnv("../.env.test")
-	initialize.ConnectDB()
-
-	url := "/user/create"
-	app := fiber.New()
-	app.Post(url, controllers.UserCreate)
-
-	values := map[string]string{"email": email, "password": password}
-
-	jsonValue, _ := json.Marshal(values)
-
-	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonValue))
-
-	req.Header.Set("Content-Type", "application/json")
-
-	app.Test(req)
-}
