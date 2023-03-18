@@ -7,10 +7,11 @@ import (
 
 	"github.com/arshad-siddiqui/sidequest/controllers"
 	"github.com/arshad-siddiqui/sidequest/initialize"
+	"github.com/arshad-siddiqui/sidequest/reset"
 	"github.com/gofiber/fiber/v2"
 )
 
-func AddUser(email, password string) {
+func addUser(email, password string) {
 	initialize.LoadEnv("../.env.test")
 	initialize.ConnectDB()
 
@@ -27,4 +28,10 @@ func AddUser(email, password string) {
 	req.Header.Set("Content-Type", "application/json")
 
 	app.Test(req)
+}
+
+func setupDBConnection() {
+	initialize.LoadEnv("../.env.test")
+	initialize.ConnectDB()
+	reset.ResetDB()
 }

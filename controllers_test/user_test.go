@@ -8,9 +8,7 @@ import (
 	"testing"
 
 	"github.com/arshad-siddiqui/sidequest/controllers"
-	"github.com/arshad-siddiqui/sidequest/initialize"
 	"github.com/arshad-siddiqui/sidequest/models"
-	"github.com/arshad-siddiqui/sidequest/reset"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,9 +16,7 @@ import (
 func TestUserCreate(t *testing.T) {
 	t.Log("TestUserCreate")
 
-	initialize.LoadEnv("../.env.test")
-	initialize.ConnectDB()
-	reset.ResetDB()
+	setupDBConnection()
 
 	url := "/user/create"
 	app := fiber.New()
@@ -64,9 +60,7 @@ func TestUserCreate(t *testing.T) {
 func TestUserAll(t *testing.T) {
 	t.Log("TestUserAll")
 
-	initialize.LoadEnv("../.env.test")
-	initialize.ConnectDB()
-	reset.ResetDB()
+	setupDBConnection()
 
 	url := "/user/all"
 	app := fiber.New()
@@ -90,7 +84,7 @@ func TestUserAll(t *testing.T) {
 
 	assert.Equal(t, string(body), "[]", "Body should be empty array")
 
-	AddUser("testemail", "testpassword")
+	addUser("testemail", "testpassword")
 	resp, err = app.Test(req)
 	if err != nil {
 		t.Fatal(err)
@@ -112,7 +106,7 @@ func TestUserAll(t *testing.T) {
 	assert.Equal(t, users[0].Email, "testemail", "User email should be testemail")
 	assert.Equal(t, users[0].Password, "testpassword", "User email should be testpassword")
 
-	AddUser("testemail2", "testpassword2")
+	addUser("testemail2", "testpassword2")
 
 	resp, err = app.Test(req)
 	if err != nil {
