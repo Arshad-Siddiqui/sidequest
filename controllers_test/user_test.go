@@ -32,7 +32,7 @@ func TestUserCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, resp.StatusCode, 400, "Status code should be 400 with no body")
+	assert.Equal(t, 400, resp.StatusCode, "Status code should be 400 with no body")
 
 	email, password := "testemail", "testpassword"
 	values := map[string]string{"email": email, "password": password}
@@ -54,7 +54,7 @@ func TestUserCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, resp.StatusCode, 200, "Status code should be 200 with body")
+	assert.Equal(t, 200, resp.StatusCode, "Status code should be 200 with body")
 }
 
 func TestUserAll(t *testing.T) {
@@ -76,13 +76,13 @@ func TestUserAll(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, resp.StatusCode, 200, "Status code should be 200 with no body")
+	assert.Equal(t, 200, resp.StatusCode, "Status code should be 200 with no body")
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, string(body), "[]", "Body should be empty array")
+	assert.Equal(t, "[]", string(body), "Body should be empty array")
 
 	addUser("testemail", "testpassword")
 	resp, err = app.Test(req)
@@ -90,7 +90,7 @@ func TestUserAll(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, resp.StatusCode, 200, "Status code should be 200 with no body")
+	assert.Equal(t, 200, resp.StatusCode, "Status code should be 200 with no body")
 	body, err = io.ReadAll(resp.Body)
 	if err != nil {
 		t.Fatal(err)
@@ -102,9 +102,9 @@ func TestUserAll(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, len(users), 1, "Body should be array with one user")
-	assert.Equal(t, users[0].Email, "testemail", "User email should be testemail")
-	assert.Equal(t, users[0].Password, "testpassword", "User email should be testpassword")
+	assert.Equal(t, 1, len(users), "Body should be array with one user")
+	assert.Equal(t, "testemail", users[0].Email, "User email should be testemail")
+	assert.Equal(t, "testpassword", users[0].Password, "User email should be testpassword")
 
 	addUser("testemail2", "testpassword2")
 
@@ -123,7 +123,7 @@ func TestUserAll(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, len(users), 2, "Body should be array with two users")
-	assert.Equal(t, users[0].Email, "testemail", "User email should be testemail")
-	assert.Equal(t, users[1].Email, "testemail2", "User2 email should be testemail2")
+	assert.Equal(t, 2, len(users), "Body should be array with two users")
+	assert.Equal(t, "testemail", users[0].Email, "User email should be testemail")
+	assert.Equal(t, "testemail2", users[1].Email, "User2 email should be testemail2")
 }
