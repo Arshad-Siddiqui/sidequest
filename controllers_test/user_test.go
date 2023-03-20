@@ -127,3 +127,35 @@ func TestUserAll(t *testing.T) {
 	assert.Equal(t, "testemail", users[0].Email, "User email should be testemail")
 	assert.Equal(t, "testemail2", users[1].Email, "User2 email should be testemail2")
 }
+
+func TestUserDelete(t *testing.T) {
+	t.Log("TestUserDelete")
+
+	initAndResetDB()
+
+	url := "/user/delete"
+	app := fiber.New()
+	app.Delete(url, controllers.UserDelete)
+
+	addUser("testemail", "testpassword")
+
+	values := map[string]string{"email": "testemail", "password": "testpassword"}
+	jsonValue, err := json.Marshal(values)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req, err := http.NewRequest("DELETE", url, bytes.NewBuffer(jsonValue))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := app.Test(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assert.Equal(t, 200, resp.StatusCode, "Status code should be 200 with no body")
+}

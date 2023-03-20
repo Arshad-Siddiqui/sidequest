@@ -21,3 +21,7 @@ func UserAll(c *fiber.Ctx) error {
 	initialize.DB.Find(&users)
 	return c.JSON(users)
 }
+
+func UserDelete(c *fiber.Ctx) error {
+	return c.SendString("UserDeleteController")
+}
