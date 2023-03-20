@@ -12,8 +12,7 @@ import (
 )
 
 func addUser(email, password string) {
-	initialize.LoadEnv("../.env.test")
-	initialize.ConnectDB()
+	initDB()
 
 	url := "/user/create"
 	app := fiber.New()
@@ -30,8 +29,12 @@ func addUser(email, password string) {
 	app.Test(req)
 }
 
-func setupDBConnection() {
+func initAndResetDB() {
+	initDB()
+	reset.ResetDB()
+}
+
+func initDB() {
 	initialize.LoadEnv("../.env.test")
 	initialize.ConnectDB()
-	reset.ResetDB()
 }

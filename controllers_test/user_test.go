@@ -16,7 +16,7 @@ import (
 func TestUserCreate(t *testing.T) {
 	t.Log("TestUserCreate")
 
-	setupDBConnection()
+	initAndResetDB()
 
 	url := "/user/create"
 	app := fiber.New()
@@ -60,7 +60,7 @@ func TestUserCreate(t *testing.T) {
 func TestUserAll(t *testing.T) {
 	t.Log("TestUserAll")
 
-	setupDBConnection()
+	initAndResetDB()
 
 	url := "/user/all"
 	app := fiber.New()
