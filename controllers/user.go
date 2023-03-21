@@ -23,5 +23,5 @@ func UserAll(c *fiber.Ctx) error {
 }
 
 func UserDelete(c *fiber.Ctx) error {
-	return c.SendString("UserDeleteController")
+	return c.SendStatus(200)
 }

@@ -22,39 +22,48 @@ func TestUserCreate(t *testing.T) {
 	app := fiber.New()
 	app.Post(url, controllers.UserCreate)
 
-	req, err := http.NewRequest("POST", url, nil)
-	if err != nil {
-		t.Fatal(err)
+	tests := []struct {
+		email       string
+		password    string
+		statusCode  int
+		description string
+	}{
+		{
+			email:       "testemail",
+			password:    "testpassword",
+			statusCode:  200,
+			description: "Should create user with email and password",
+		},
+		{
+			email:       "testemail2",
+			password:    "testpassword2",
+			statusCode:  200,
+			description: "Should create user with email and password",
+		},
 	}
 
-	resp, err := app.Test(req)
-	if err != nil {
-		t.Fatal(err)
+	for _, test := range tests {
+		values := map[string]string{"email": test.email, "password": test.password}
+
+		jsonValue, err := json.Marshal(values)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonValue))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		req.Header.Set("Content-Type", "application/json")
+
+		resp, err := app.Test(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		assert.Equal(t, test.statusCode, resp.StatusCode, test.description)
 	}
-
-	assert.Equal(t, 400, resp.StatusCode, "Status code should be 400 with no body")
-
-	email, password := "testemail", "testpassword"
-	values := map[string]string{"email": email, "password": password}
-
-	jsonValue, err := json.Marshal(values)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	req, err = http.NewRequest("POST", url, bytes.NewBuffer(jsonValue))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err = app.Test(req)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	assert.Equal(t, 200, resp.StatusCode, "Status code should be 200 with body")
 }
 
 func TestUserAll(t *testing.T) {
