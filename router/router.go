@@ -12,10 +12,12 @@ func New() *fiber.App {
 		return c.SendString("Hello, World!")
 	})
 
-	app.Get("/test", controllers.TestController)
+	addUserRoutes(app)
+	return app
+}
 
+func addUserRoutes(app *fiber.App) {
 	userRoutes := app.Group("/user")
 	userRoutes.Post("/create", controllers.UserCreate)
 	userRoutes.Get("/all", controllers.UserAll)
-	return app
 }
