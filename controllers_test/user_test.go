@@ -40,6 +40,12 @@ func TestUserCreate(t *testing.T) {
 			statusCode:  200,
 			description: "Should create user with email and password",
 		},
+		{
+			email:       "",
+			password:    "",
+			statusCode:  200, // TODO: Should be 400
+			description: "Should not create user with empty email and password",
+		},
 	}
 
 	for _, test := range tests {

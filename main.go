@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	initialize.LoadEnv()
+	initialize.LoadEnv(".env")
 	initialize.ConnectDB()
 }
 func main() {

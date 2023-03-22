@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/arshad-siddiqui/sidequest/controllers"
-	"github.com/arshad-siddiqui/sidequest/initialize"
+	. "github.com/arshad-siddiqui/sidequest/initialize"
 	"github.com/arshad-siddiqui/sidequest/reset"
 	"github.com/gofiber/fiber/v2"
 )
@@ -35,6 +35,6 @@ func initAndResetDB() {
 }
 
 func initDB() {
-	initialize.LoadEnv("../.env.test")
-	initialize.ConnectDB()
+	LoadEnv("../.env.test")
+	ConnectDB()
 }
