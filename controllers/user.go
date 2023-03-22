@@ -12,6 +12,11 @@ func UserCreate(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
+
+	if user.Email == "" || user.Password == "" {
+		return c.Status(400).SendString("Email and Password are required")
+	}
+
 	initialize.DB.Create(&user)
 	return c.SendString("UserCreateController")
 }

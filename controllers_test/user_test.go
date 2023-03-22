@@ -43,7 +43,7 @@ func TestUserCreate(t *testing.T) {
 		{
 			email:       "",
 			password:    "",
-			statusCode:  200, // TODO: Should be 400
+			statusCode:  400,
 			description: "Should not create user with empty email and password",
 		},
 	}
