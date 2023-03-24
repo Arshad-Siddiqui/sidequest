@@ -19,5 +19,6 @@ func New() *fiber.App {
 func addUserRoutes(app *fiber.App) {
 	userRoutes := app.Group("/user")
 	userRoutes.Post("/create", controllers.UserCreate)
+	userRoutes.Post("/find", controllers.UserFind)
 	userRoutes.Get("/all", controllers.UserAll)
 }
