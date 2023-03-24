@@ -195,6 +195,12 @@ func TestUserFind(t *testing.T) {
 			statusCode:  200,
 			description: "Should find user with email",
 		},
+		{
+			email:       "testemail8",
+			password:    "testpassword8",
+			statusCode:  404,
+			description: "Should not find user with email",
+		},
 	}
 
 	t.Log("TestUserFind")

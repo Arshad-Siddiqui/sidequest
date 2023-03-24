@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"encoding/json"
+
 	"github.com/arshad-siddiqui/sidequest/initialize"
 	"github.com/arshad-siddiqui/sidequest/models"
 	"github.com/gofiber/fiber/v2"
@@ -33,11 +35,29 @@ func UserDelete(c *fiber.Ctx) error {
 
 func UserFind(c *fiber.Ctx) error {
 	// getting the email from the post request json
-	email := c.Params("email")
+	var data map[string]interface{}
+	err := json.Unmarshal(c.Body(), &data)
+	if err != nil {
+		c.Status(400).SendString(err.Error())
+	}
+
+	email := data["email"].(string)
+	// emailVal, ok := data["email"]
+	// if !ok {
+	// 	// handle missing email field
+	// }
+
+	// email, ok := emailVal.(string)
+	// if !ok {
+	// 	// handle invalid email value
+	// }
 
 	// finding the user with the email
 	var user models.User
 	initialize.DB.Where("email = ?", email).First(&user)
+	if user.Email == "" {
+		return c.Status(404).SendString("User not found")
+	}
 
 	// returning the user
 	return c.JSON(user)
