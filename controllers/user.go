@@ -30,3 +30,15 @@ func UserAll(c *fiber.Ctx) error {
 func UserDelete(c *fiber.Ctx) error {
 	return c.SendStatus(200)
 }
+
+func UserFind(c *fiber.Ctx) error {
+	// getting the email from the post request json
+	email := c.Params("email")
+
+	// finding the user with the email
+	var user models.User
+	initialize.DB.Where("email = ?", email).First(&user)
+
+	// returning the user
+	return c.JSON(user)
+}

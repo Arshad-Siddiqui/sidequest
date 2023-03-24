@@ -3,6 +3,7 @@ package controllers_test
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"testing"
@@ -173,4 +174,58 @@ func TestUserDelete(t *testing.T) {
 	}
 
 	assert.Equal(t, 200, resp.StatusCode, "Status code should be 200 with no body")
+}
+
+func TestUserFind(t *testing.T) {
+	tests := []struct {
+		email       string
+		password    string
+		statusCode  int
+		description string
+	}{
+		{
+			email:       "testemail1",
+			password:    "testpassword1",
+			statusCode:  200,
+			description: "Should find user with email",
+		},
+		{
+			email:       "testemail3",
+			password:    "testpassword3",
+			statusCode:  200,
+			description: "Should find user with email",
+		},
+	}
+
+	t.Log("TestUserFind")
+
+	initAndResetDB()
+	for i := 1; i <= 5; i++ {
+		addUser(fmt.Sprintf("testemail%d", i), fmt.Sprintf("testpassword%d", i))
+	}
+
+	url := "/user/find"
+	app := fiber.New()
+	app.Get(url, controllers.UserFind)
+
+	for _, test := range tests {
+		values := map[string]string{"email": test.email}
+
+		jsonValue, err := json.Marshal(values)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		req, err := http.NewRequest("GET", url, bytes.NewBuffer(jsonValue))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		resp, err := app.Test(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		assert.Equal(t, test.statusCode, resp.StatusCode, test.description)
+	}
 }
