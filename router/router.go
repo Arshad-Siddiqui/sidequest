@@ -9,7 +9,7 @@ func New() *fiber.App {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
+		return c.SendString("sidequest api running on port 8080")
 	})
 
 	addUserRoutes(app)
@@ -21,4 +21,9 @@ func addUserRoutes(app *fiber.App) {
 	userRoutes.Post("/create", controllers.UserCreate)
 	userRoutes.Post("/find", controllers.UserFind)
 	userRoutes.Get("/all", controllers.UserAll)
+}
+
+func addQuestRoutes(app *fiber.App) {
+	questRoutes := app.Group("/quest")
+	questRoutes.Post("/create", controllers.QuestCreate)
 }

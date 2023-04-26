@@ -19,4 +19,5 @@ func setDB(environment string) {
 	initialize.LoadEnv(environment)
 	initialize.ConnectDB()
 	initialize.DB.AutoMigrate(&models.User{})
+	initialize.DB.AutoMigrate(&models.Quest{})
 }
