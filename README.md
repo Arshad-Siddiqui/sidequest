@@ -16,6 +16,8 @@ Then run the following command to start the server.
 gin -i --appPort 8080 --port 3000 --all run main.go
 ```
 
+- Note: You can run the server with the usual command of 'go run main.go' but you will not get live reloading.
+
 ## When running tests locally
 
 Make sure to migrate the database before running the tests. Especially when you modify any schemas.
