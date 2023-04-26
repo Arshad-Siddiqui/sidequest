@@ -42,11 +42,6 @@ func UserFind(c *fiber.Ctx) error {
 	}
 
 	email := data["email"].(string)
-	// emailVal, ok := data["email"]
-	// if !ok {
-	// 	// handle missing email field
-	// }
-
 	// email, ok := emailVal.(string)
 	// if !ok {
 	// 	// handle invalid email value
